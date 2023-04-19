@@ -1,12 +1,19 @@
 //TODO
+// Functional:
 // multiple download
 // display all uploaded files one by one
 // transfer metadata
+// Visuals:
+// Fade in download image on hover
 
+import testimg from "./img/testimg.jpg";
 import { useState } from "react";
 import { useRef } from "react";
 import heic2any from "heic2any";
 import JSZip from "jszip/dist/jszip";
+import "./scss/styles.scss";
+import * as bootstrap from "bootstrap";
+import Gallery from "./components/Gallery";
 
 export default function App() {
   const [jpegs, setJpegs] = useState([]);
@@ -33,7 +40,6 @@ export default function App() {
     // Work on array of fulfilled promises
     Promise.allSettled(promises).then((results) => {
       const nextState = results.map((result, index) => {
-        console.log("adding a file");
         const jpegBlob = result.value;
         const currentName = fileList[index].name.replace(/HEIC$/, "jpg");
         const jpegFile = new File([jpegBlob], currentName);
@@ -43,7 +49,6 @@ export default function App() {
 
       setJpegs(nextState);
 
-      console.log("Now zipping");
       const zip = new JSZip();
       nextState.forEach((jpeg) => {
         zip.file(jpeg.file.name, jpeg.file);
@@ -64,38 +69,49 @@ export default function App() {
     });
   }
 
-  function handleDownloadAll(e) {}
-
   return (
-    <>
-      <input
-        type="file"
-        accept="image/heic"
-        multiple
-        onChange={(e) => handleUpload(e)}
-      />
-      {jpegs.length > 0 && (
-        <>
-          {jpegs.map((jpeg) => (
-            <Img jpegURL={jpeg.URL} key={jpeg.URL}></Img>
-          ))}
-          <a href={zippedJpegs} download>
-            <button>Download All</button>
-          </a>
-        </>
-      )}
-    </>
+    <div>
+      <div className="container-sm">
+        <input
+          type="file"
+          accept="image/heic"
+          multiple
+          onChange={(e) => handleUpload(e)}
+        />
+        {jpegs.length > 0 && (
+          <>
+            <Gallery jpegs={jpegs} />
+            <a href={zippedJpegs} download>
+              <button>Download All</button>
+            </a>
+          </>
+        )}
+        {/* <Testgallery /> */}
+      </div>
+    </div>
   );
 }
 
-function Img({ jpegURL }) {
+function Testimg() {
   return (
-    <a href={jpegURL} download>
+    <div className="col">
       <img
-        src={jpegURL}
-        height={100}
-        width={100}
-        alt="Preview of uploaded image"></img>
-    </a>
+        className="rounded-3 shadow img-fluid"
+        src={testimg}
+        alt="Test image"></img>
+    </div>
+  );
+}
+
+function Testgallery() {
+  return (
+    <div className="row row-cols-4 gx-4 gy-5">
+      <Testimg />
+      <Testimg />
+      <Testimg />
+      <Testimg />
+      <Testimg />
+      <Testimg />
+    </div>
   );
 }
