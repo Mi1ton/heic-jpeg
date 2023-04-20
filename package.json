@@ -11,6 +11,7 @@
   "dependencies": {
     "bootstrap": "^5.2.3",
     "exif-js": "^2.3.0",
+    "file-saver": "^2.0.5",
     "heic2any": "^0.0.4",
     "jszip": "^3.10.1",
     "piexifjs": "^1.0.6",
