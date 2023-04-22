@@ -1,10 +1,13 @@
 //TODO
-// Functional:
+// drag and drop
 // multiple download
 // display all uploaded files one by one
 // transfer metadata
-// Visuals:
-// Fade in download image on hover
+// fix hello.zip
+// make gallery vh-80 and scrollable on overflow
+// add upload image into empty gallery
+// add download image to Imgs
+// hover effect for Imgs
 
 import "./scss/styles.scss";
 import { useState } from "react";
@@ -12,51 +15,31 @@ import Gallery from "./components/Gallery";
 import UploadBtn from "./components/UploadBtn";
 import convert from "./utils/convert";
 import zip from "./utils/zip";
-import testimg from "./img/testimg.jpg";
+import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
 export default function App() {
   const [jpegs, setJpegs] = useState([]);
+  const [isConverting, setIsConverting] = useState(false);
   return (
     <div>
-      <div className="container-sm">
-        <nav className="navbar bg-body-tertiary justify-content-evenly">
+      <div className="container">
+        <nav className="navbar justify-content-evenly">
           <UploadBtn
-            onChange={async (e) =>
-              setJpegs(await convert(Array.from(e.target.files)))
-            }
+            onChange={async (e) => {
+              setIsConverting(true);
+              setJpegs(await convert(Array.from(e.target.files)));
+              setIsConverting(false);
+            }}
           />
           <button
             className="btn btn-primary"
+            disabled={!isConverting && jpegs.length ? false : true}
             onClick={async () => await zip(jpegs)}>
-            Download All
+            Download as zip
           </button>
         </nav>
-        <Gallery jpegs={jpegs} />
+        <Gallery jpegs={jpegs} displaySpinner={isConverting} />
       </div>
-    </div>
-  );
-}
-
-function Testimg() {
-  return (
-    <div className="col">
-      <img
-        className="rounded-3 shadow img-fluid"
-        src={testimg}
-        alt="Test image"></img>
-    </div>
-  );
-}
-
-function Testgallery() {
-  return (
-    <div className="row row-cols-4 gx-4 gy-5">
-      <Testimg />
-      <Testimg />
-      <Testimg />
-      <Testimg />
-      <Testimg />
-      <Testimg />
     </div>
   );
 }

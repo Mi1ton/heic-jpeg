@@ -8,7 +8,7 @@ async function convert(heics) {
     return heic2any({
       blob: heic,
       toType: "image/jpeg",
-      quality: 80,
+      quality: 0.8,
     });
   });
 
@@ -16,7 +16,7 @@ async function convert(heics) {
   const jpegFiles = await Promise.allSettled(promises).then((results) => {
     return results.map((result, index) => {
       const jpegBlob = result.value;
-      const name = fileList[index].name.toLowerCase().replace(/heic$/, "jpg");
+      const name = fileList[index].name.toLowerCase().replace(/heic$|heif$/, "jpg");
       const jpegFile = new File([jpegBlob], name);
       return jpegFile;
     });
