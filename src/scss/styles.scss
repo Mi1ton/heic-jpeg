@@ -1,2 +1,45 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
+
+:root {
+  --shadow-color: 0deg 0% 63%;
+  --shadow-elevation-low: 0px 1px 0.9px hsl(var(--shadow-color) / 0.42),
+    0px 1.4px 1.3px -1.9px hsl(var(--shadow-color) / 0.32),
+    0px 3.6px 3.3px -3.8px hsl(var(--shadow-color) / 0.22);
+  --shadow-elevation-medium: 0px 1px 0.9px hsl(var(--shadow-color) / 0.44),
+    0px 2.3px 2.1px -1.3px hsl(var(--shadow-color) / 0.36),
+    0px 6.7px 6.2px -2.6px hsl(var(--shadow-color) / 0.29),
+    0.1px 18px 16.6px -3.8px hsl(var(--shadow-color) / 0.21);
+  --shadow-elevation-high: 0px 1px 0.9px hsl(var(--shadow-color) / 0.41),
+    0px 2.9px 2.7px -0.5px hsl(var(--shadow-color) / 0.37),
+    0px 5.6px 5.2px -1.1px hsl(var(--shadow-color) / 0.34),
+    0px 10.6px 9.8px -1.6px hsl(var(--shadow-color) / 0.3),
+    0.1px 19.1px 17.6px -2.2px hsl(var(--shadow-color) / 0.27),
+    0.1px 32.6px 30.1px -2.7px hsl(var(--shadow-color) / 0.23),
+    0.2px 52.4px 48.3px -3.3px hsl(var(--shadow-color) / 0.19),
+    0.3px 80px 73.8px -3.8px hsl(var(--shadow-color) / 0.16);
+}
+
+.shadow-elevation-high {
+  box-shadow: var(--shadow-elevation-high);
+}
+
+.shadow-elevation-medium {
+  box-shadow: var(--shadow-elevation-medium);
+}
+
+.shadow-elevation-low {
+  box-shadow: var(--shadow-elevation-low);
+}
+
+.text-shadow-elevation-high {
+  text-shadow: var(--shadow-elevation-high);
+}
+
+.text-shadow-elevation-medium {
+  text-shadow: var(--shadow-elevation-medium);
+}
+
+.text-shadow-elevation-low {
+  text-shadow: var(--shadow-elevation-low);
+}

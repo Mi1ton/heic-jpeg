@@ -20,25 +20,32 @@ import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 export default function App() {
   const [jpegs, setJpegs] = useState([]);
   const [isConverting, setIsConverting] = useState(false);
+  async function initConvert(fileArray) {
+    setIsConverting(true);
+    setJpegs(await convert(fileArray));
+    setIsConverting(false);
+  }
   return (
     <div>
       <div className="container">
         <nav className="navbar justify-content-evenly">
           <UploadBtn
             onChange={async (e) => {
-              setIsConverting(true);
-              setJpegs(await convert(Array.from(e.target.files)));
-              setIsConverting(false);
+              await initConvert(Array.from(e.target.files));
             }}
           />
           <button
-            className="btn btn-primary"
+            className="btn btn-primary shadow-elevation-medium"
             disabled={!isConverting && jpegs.length ? false : true}
             onClick={async () => await zip(jpegs)}>
             Download as zip
           </button>
         </nav>
-        <Gallery jpegs={jpegs} displaySpinner={isConverting} />
+        <Gallery
+          jpegs={jpegs}
+          isConverting={isConverting}
+          initConvert={initConvert}
+        />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import heic2any from "heic2any";
 
-async function convert(heics) {
+async function convert(fileArray) {
   const start = performance.now();
-  const fileList = Array.from(heics);
+  const fileList = Array.from(fileArray);
   // Create array of promises
   const promises = fileList.map((heic) => {
     return heic2any({
@@ -16,7 +16,9 @@ async function convert(heics) {
   const jpegFiles = await Promise.allSettled(promises).then((results) => {
     return results.map((result, index) => {
       const jpegBlob = result.value;
-      const name = fileList[index].name.toLowerCase().replace(/heic$|heif$/, "jpg");
+      const name = fileList[index].name
+        .toLowerCase()
+        .replace(/heic$|heif$/, "jpg");
       const jpegFile = new File([jpegBlob], name);
       return jpegFile;
     });

@@ -7,7 +7,7 @@ async function zip(jpegs) {
     zip.file(jpeg.name, jpeg);
   });
   const zipURL = zip.generateAsync({ type: "blob" }).then((blob) => {
-    saveAs(blob, "hello.zip");
+    saveAs(blob, "heic2jpeg.zip");
   });
 }
 

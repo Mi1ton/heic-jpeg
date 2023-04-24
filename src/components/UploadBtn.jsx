@@ -1,6 +1,6 @@
 function UploadBtn({ onChange }) {
   return (
-    <label htmlFor="upload-button" className="btn btn-success">
+    <label htmlFor="upload-button" className="btn btn-success shadow-elevation-medium">
       Upload images
       <input
         type="file"
