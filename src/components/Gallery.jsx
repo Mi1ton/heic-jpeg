@@ -19,6 +19,48 @@ function Gallery({ jpegs, isConverting, initConvert }) {
   function onDragOverHandler(e) {
     e.preventDefault();
   }
+  let display = null;
+  // Show drag and drop
+  if (!isConverting && !jpegs.length) {
+    display = (
+      <div
+        className="position-absolute top-50 start-50 translate-middle bg-secondary text-center"
+        style={{
+          color: "transparent",
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          textShadow: "1px 1px 2px rgba(150, 150, 150, .4)",
+        }}>
+        <i
+          className="bi-download"
+          style={{
+            fontSize: "8rem",
+          }}></i>
+        <div className="fs-5">
+          <div className="fw-bold">Choose files</div> or drag them here
+        </div>
+      </div>
+    );
+    // Show spinner
+  } else if (isConverting) {
+    display = (
+      <div className="position-absolute top-50 start-50 translate-middle">
+        <div
+          className="spinner-border"
+          style={{ width: "4.5rem", height: "4.5rem" }}
+          role="status"></div>
+      </div>
+    );
+    // Show image gallery
+  } else {
+    display = (
+      <div className="row row-cols-2 row-cols-md-4 g-4">
+        {jpegs.map((jpeg, index) => {
+          return <Img jpeg={jpeg} key={index} />;
+        })}
+      </div>
+    );
+  }
   return (
     <div
       onDrop={async (e) => await dropHandler(e)}
@@ -29,41 +71,8 @@ function Gallery({ jpegs, isConverting, initConvert }) {
       style={{
         height: "90vh",
       }}>
-      {!isConverting && !jpegs.length ? (
-        <i
-          className={
-            "bi-download position-absolute top-50 start-50 translate-middle bg-secondary"
-          }
-          style={{
-            display: "box",
-            fontSize: "8rem",
-            color: "transparent",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            textShadow: "1px 1px 2px rgba(150, 150, 150, .4)",
-          }}></i>
-      ) : null}
-
-      <div className="row row-cols-2 row-cols-md-4 g-4">
-        {isConverting ? (
-          <Spinner />
-        ) : (
-          <>
-            {jpegs.map((jpeg, index) => {
-              return <Img jpeg={jpeg} key={index} />;
-            })}
-          </>
-        )}
-      </div>
+      {display}
     </div>
-  );
-}
-
-function Spinner() {
-  return (
-    // <div className="position-absolute top-50 start-50 translate-middle">
-    <div className="spinner-border" role="status"></div>
-    // </div>
   );
 }
 
@@ -74,7 +83,7 @@ function Img({ jpeg }) {
       <div style={{ position: "relative" }}>
         <a href={jpegURL} download={jpeg.name}>
           <img
-            className="rounded-4 shadow-elevation-medium img-fluid border border-secondary"
+            className="rounded-4 shadow-elevation-medium img-fluid border border-secondary img"
             src={jpegURL}
             alt="Preview of a converted image"></img>
           <i

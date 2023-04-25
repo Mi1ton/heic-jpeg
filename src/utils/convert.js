@@ -1,10 +1,18 @@
 import heic2any from "heic2any";
+import EXIF from "exif-js-heic";
+import * as piexif from "piexifjs";
 
 async function convert(fileArray) {
-  const start = performance.now();
-  const fileList = Array.from(fileArray);
+  // Extracting EXIF
+  // let file0EXIF = null;
+  // const file = fileArray[0];
+  // EXIF.getData(file, function () {
+  //   file0EXIF = EXIF.getAllTags(this);
+  // });
+  // console.log(file0EXIF);
+
   // Create array of promises
-  const promises = fileList.map((heic) => {
+  const promises = fileArray.map((heic) => {
     return heic2any({
       blob: heic,
       toType: "image/jpeg",
@@ -16,18 +24,13 @@ async function convert(fileArray) {
   const jpegFiles = await Promise.allSettled(promises).then((results) => {
     return results.map((result, index) => {
       const jpegBlob = result.value;
-      const name = fileList[index].name
+      const name = fileArray[index].name
         .toLowerCase()
         .replace(/heic$|heif$/, "jpg");
       const jpegFile = new File([jpegBlob], name);
       return jpegFile;
     });
   });
-  const end = performance.now();
-  const totalTime = (end - start) / 1000;
-  const timePerImage = totalTime / jpegFiles.length;
-  console.log(`time elapsed: ${totalTime}`);
-  console.log(`time per image: ${timePerImage}`);
   return jpegFiles;
 }
 

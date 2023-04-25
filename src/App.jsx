@@ -1,13 +1,8 @@
 //TODO
-// drag and drop
-// multiple download
-// display all uploaded files one by one
 // transfer metadata
-// fix hello.zip
-// make gallery vh-80 and scrollable on overflow
-// add upload image into empty gallery
-// add download image to Imgs
-// hover effect for Imgs
+// make it work on iOS
+// make it work offline
+// make converter omit erroneous files
 
 import "./scss/styles.scss";
 import { useState } from "react";
@@ -28,7 +23,7 @@ export default function App() {
   return (
     <div>
       <div className="container">
-        <nav className="navbar justify-content-evenly">
+        <nav className="navbar justify-content-evenly mt-1 mb-1">
           <UploadBtn
             onChange={async (e) => {
               await initConvert(Array.from(e.target.files));

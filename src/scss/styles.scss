@@ -31,15 +31,12 @@
 .shadow-elevation-low {
   box-shadow: var(--shadow-elevation-low);
 }
-
-.text-shadow-elevation-high {
-  text-shadow: var(--shadow-elevation-high);
+.img {
+  transition-duration: 275ms;
 }
 
-.text-shadow-elevation-medium {
-  text-shadow: var(--shadow-elevation-medium);
-}
-
-.text-shadow-elevation-low {
-  text-shadow: var(--shadow-elevation-low);
+.img:hover {
+  box-shadow: var(--shadow-elevation-high);
+  transform: scale(1.002);
+  transform: rotate3d(1, 0, 0, 4deg);
 }
