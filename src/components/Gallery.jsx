@@ -37,7 +37,7 @@ function Gallery({ jpegs, isConverting, initConvert }) {
             fontSize: "8rem",
           }}></i>
         <div className="fs-5">
-          <div className="fw-bold">Choose files</div> or drag them here
+          <div className="fw-bold">Choose files</div> or drag and them here
         </div>
       </div>
     );
@@ -67,7 +67,7 @@ function Gallery({ jpegs, isConverting, initConvert }) {
       onDragEnter={(e) => dragOverHandler(e)}
       onDragLeave={(e) => dragLeaveHandler(e)}
       onDragOver={(e) => onDragOverHandler(e)}
-      className={`border border-dark-subtle rounded-5 overflow-scroll position-relative shadow-elevation-high p-3 ${bgColor} `}
+      className={`position-relative overflow-auto ${bgColor} border border-dark-subtle rounded-5 scrollbar-none shadow-elevation-high p-3`}
       style={{
         height: "90vh",
       }}>

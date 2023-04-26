@@ -40,3 +40,11 @@
   transform: scale(1.002);
   transform: rotate3d(1, 0, 0, 4deg);
 }
+
+.scrollbar-none {
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
