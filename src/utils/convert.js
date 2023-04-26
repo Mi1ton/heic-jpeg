@@ -1,6 +1,6 @@
 import heic2any from "heic2any";
-import EXIF from "exif-js-heic";
-import * as piexif from "piexifjs";
+// import EXIF from "exif-js-heic";
+// import * as piexif from "piexifjs";
 
 async function convert(fileArray) {
   // Extracting EXIF
