@@ -2,7 +2,6 @@
 // transfer metadata
 // make it work on iOS
 // make it work offline
-// make converter omit erroneous files
 
 import "./scss/styles.scss";
 import { useState } from "react";

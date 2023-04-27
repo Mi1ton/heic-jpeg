@@ -21,16 +21,32 @@ async function convert(fileArray) {
   });
 
   // Work on array of settled promises
-  const jpegFiles = await Promise.allSettled(promises).then((results) => {
-    return results.map((result, index) => {
-      const jpegBlob = result.value;
-      const name = fileArray[index].name
-        .toLowerCase()
-        .replace(/heic$|heif$/, "jpg");
-      const jpegFile = new File([jpegBlob], name);
-      return jpegFile;
-    });
+  // let jpegFiles = await Promise.allSettled(promises).then((results) => {
+  //   return results.map((result, index) => {
+  //     console.log(result);
+  //     const jpegBlob = result.value;
+  //     const name = fileArray[index].name
+  //       .toLowerCase()
+  //       .replace(/heic$|heif$/, "jpg");
+  //     const jpegFile = new File([jpegBlob], name);
+  //     return jpegFile;
+  //   });
+  // });
+
+  let jpegFiles = await Promise.allSettled(promises).then((results) => {
+    return results
+      .filter((result) => (result.status === "fulfilled"))
+      .map((result, index) => {
+        console.log(result);
+        const jpegBlob = result.value;
+        const name = fileArray[index].name
+          .toLowerCase()
+          .replace(/heic$|heif$/, "jpg");
+        const jpegFile = new File([jpegBlob], name);
+        return jpegFile;
+      });
   });
+
   return jpegFiles;
 }
 
