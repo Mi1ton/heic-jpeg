@@ -3,7 +3,12 @@ import convert from "../utils/convert";
 
 function Gallery({ jpegs, isConverting, initConvert }) {
   const [isDragging, setIsDragging] = useState(false);
+  
   const bgColor = isDragging ? "bg-dark bg-opacity-10" : "bg-light";
+  const displayDranNDropIcon = !isConverting && !jpegs.length;
+  const displaySpinner = isConverting;
+  const displayImages = !isConverting && jpegs.length > 0;
+
   async function dropHandler(e) {
     e.preventDefault();
     const dataTransferArray = Array.from(e.dataTransfer.files);
@@ -19,48 +24,6 @@ function Gallery({ jpegs, isConverting, initConvert }) {
   function onDragOverHandler(e) {
     e.preventDefault();
   }
-  let display = null;
-  // Show drag and drop
-  if (!isConverting && !jpegs.length) {
-    display = (
-      <div
-        className="position-absolute top-50 start-50 translate-middle bg-secondary text-center"
-        style={{
-          color: "transparent",
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          textShadow: "1px 1px 2px rgba(150, 150, 150, .4)",
-        }}>
-        <i
-          className="bi-download"
-          style={{
-            fontSize: "8rem",
-          }}></i>
-        <div className="fs-5">
-          <div className="fw-bold">Choose files</div> or drag and them here
-        </div>
-      </div>
-    );
-    // Show spinner
-  } else if (isConverting) {
-    display = (
-      <div className="position-absolute top-50 start-50 translate-middle">
-        <div
-          className="spinner-border"
-          style={{ width: "4.5rem", height: "4.5rem" }}
-          role="status"></div>
-      </div>
-    );
-    // Show image gallery
-  } else {
-    display = (
-      <div className="row row-cols-2 row-cols-md-4 g-4">
-        {jpegs.map((jpeg, index) => {
-          return <Img jpeg={jpeg} key={index} />;
-        })}
-      </div>
-    );
-  }
   return (
     <div
       onDrop={async (e) => await dropHandler(e)}
@@ -71,7 +34,15 @@ function Gallery({ jpegs, isConverting, initConvert }) {
       style={{
         height: "90vh",
       }}>
-      {display}
+      {displayDranNDropIcon && <DragNDropIcon />}
+      {displaySpinner && <Spinner />}
+      {displayImages && (
+        <div className="row row-cols-2 row-cols-md-4 g-4">
+          {jpegs.map((jpeg, index) => {
+            return <Img jpeg={jpeg} key={index} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -97,6 +68,39 @@ function Img({ jpeg }) {
             }}></i>
         </a>
       </div>
+    </div>
+  );
+}
+
+function DragNDropIcon() {
+  return (
+    <div
+      className="position-absolute top-50 start-50 translate-middle bg-secondary text-center"
+      style={{
+        color: "transparent",
+        backgroundClip: "text",
+        WebkitBackgroundClip: "text",
+        textShadow: "1px 1px 2px rgba(150, 150, 150, .4)",
+      }}>
+      <i
+        className="bi-download"
+        style={{
+          fontSize: "8rem",
+        }}></i>
+      <div className="fs-5">
+        <div className="fw-bold">Choose files</div> or drag and them here
+      </div>
+    </div>
+  );
+}
+
+function Spinner() {
+  return (
+    <div className="position-absolute top-50 start-50 translate-middle">
+      <div
+        className="spinner-border"
+        style={{ width: "4.5rem", height: "4.5rem" }}
+        role="status"></div>
     </div>
   );
 }
